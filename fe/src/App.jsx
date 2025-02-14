@@ -1,34 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from 'react-router'
+import Welcome from './pages/welcome'
+import Login from './pages/auth/login'
+import Register from './pages/auth/register'
+import Dashboard from './pages/app/dashboard'
+import Home from './pages/app/home'
+import ProtectedRoute from './utils/protected-route'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Routes>
+      <Route index element={<Welcome />} />
+
+      <Route path='auth'>
+        <Route path='login' element={<Login />} />
+        <Route path='sign-up' element={<Register />} />
+      </Route>
+
+      <Route element={
+        <ProtectedRoute isAllowed={false}>
+          <Dashboard/>
+        </ProtectedRoute>
+      }>
+        <Route path='home' element={<Home />}/>
+      </Route>
+
+      <Route path="*" element={<p>There&rsquo;s nothing here: 404!</p>} />
+    </Routes>
   )
 }
 
