@@ -5,8 +5,12 @@ import Register from './pages/auth/register'
 import Dashboard from './pages/app/dashboard'
 import Home from './pages/app/home'
 import ProtectedRoute from './utils/protected-route'
+import useAuth from './store/auth'
 
 function App() {
+  const isAuthenticated =  useAuth((state) => state.isAuthenticated);
+
+  
   return (
     <Routes>
       <Route index element={<Welcome />} />
@@ -17,7 +21,7 @@ function App() {
       </Route>
 
       <Route element={
-        <ProtectedRoute isAllowed={false}>
+        <ProtectedRoute isAllowed={isAuthenticated}>
           <Dashboard/>
         </ProtectedRoute>
       }>
